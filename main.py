@@ -12,7 +12,7 @@ def get_map_parameters(json_response):
     map_params = {
         "ll": ",".join([toponym_longitude, toponym_lattitude]),
         "l": "map",
-        'z': '17'
+        'z': 17
     }
     return map_params
 
