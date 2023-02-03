@@ -52,7 +52,7 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN and event.key == pygame.K_PAGEUP:
-                if scale < 23:
+                if scale < 21:
                     scale += 1
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_PAGEDOWN:
                 if scale > 0:
