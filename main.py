@@ -2,12 +2,49 @@ import pygame
 import requests
 import os
 
+
+def get_map_parameters(json_response):
+    toponym = json_response["response"]["GeoObjectCollection"][
+        "featureMember"][0]["GeoObject"]
+    toponym_coodrinates = toponym["Point"]["pos"]
+    toponym_longitude, toponym_lattitude = toponym_coodrinates.split(" ")
+
+    map_params = {
+        "ll": ",".join([toponym_longitude, toponym_lattitude]),
+        "l": "map",
+        'z': '17'
+    }
+    return map_params
+
+
+def map(toponym_to_find):
+    geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
+
+    geocoder_params = {
+        "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
+        "geocode": toponym_to_find,
+        "format": "json"}
+
+    response = requests.get(geocoder_api_server, params=geocoder_params)
+
+    if not response:
+        pass
+
+    json_response = response.json()
+    map_params = get_map_parameters(json_response)
+
+    map_api_server = "http://static-maps.yandex.ru/1.x/"
+    response = requests.get(map_api_server, params=map_params)
+    return response
+
+
 if __name__ == '__main__':
     running = True
     pygame.init()
-    coords = input().replace(' ', ',')
-    scale = int(input())
-    map_api_server = "http://static-maps.yandex.ru/1.x/"
+    # coords = input().replace(' ', ',')
+    # scale = int(input())
+    toponym_to_find = 'Санкт-Петербург, набережная Мойки, 14'
+
     map_file = 'map.png'
     screen = pygame.display.set_mode((600, 450))
     while running:
@@ -15,12 +52,7 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 running = False
         screen.fill((255, 255, 255))
-        map_params = {
-            "ll": coords,
-            "spn": ",".join([str(scale), str(scale)]),
-            "l": "map"
-        }
-        response = requests.get(map_api_server, params=map_params)
+        response = map(toponym_to_find)
         with open(map_file, 'wb') as file:
             file.write(response.content)
         screen.blit(pygame.image.load(map_file), (0, 0))
