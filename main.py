@@ -12,7 +12,7 @@ def get_map_parameters(json_response):
     map_params = {
         "ll": ",".join([toponym_longitude, toponym_lattitude]),
         "l": "map",
-        'z': '17'
+        'z': scale
     }
     return map_params
 
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     running = True
     pygame.init()
     # coords = input().replace(' ', ',')
-    # scale = int(input())
+    scale = 17
     toponym_to_find = 'Санкт-Петербург, набережная Мойки, 14'
 
     map_file = 'map.png'
@@ -51,6 +51,12 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_PAGEUP:
+                if scale < 23:
+                    scale += 1
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_PAGEDOWN:
+                if scale > 0:
+                    scale -= 1
         screen.fill((255, 255, 255))
         response = map(toponym_to_find)
         with open(map_file, 'wb') as file:
