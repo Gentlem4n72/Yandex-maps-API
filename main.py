@@ -1,7 +1,6 @@
 import pygame
 import requests
-from io import BytesIO
-from PIL import Image
+import os
 
 if __name__ == '__main__':
     running = True
@@ -15,7 +14,9 @@ if __name__ == '__main__':
         "l": "map"
     }
     response = requests.get(map_api_server, params=map_params)
-    map = Image.open(BytesIO(response.content))
+    map_file = 'map.png'
+    with open(map_file, 'wb') as file:
+        file.write(response.content)
 
     screen = pygame.display.set_mode((800, 600))
     while running:
@@ -23,6 +24,7 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 running = False
         screen.fill((255, 255, 255))
-        screen.blit(pygame.image.fromstring(map.tobytes(), map.size, map. mode), (0, 0))
+        screen.blit(pygame.image.load(map_file), (0, 0))
         pygame.display.flip()
     pygame.quit()
+    os.remove(map_file)
