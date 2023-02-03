@@ -18,7 +18,7 @@ if __name__ == '__main__':
     with open(map_file, 'wb') as file:
         file.write(response.content)
 
-    screen = pygame.display.set_mode((800, 600))
+    screen = pygame.display.set_mode((600, 450))
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
