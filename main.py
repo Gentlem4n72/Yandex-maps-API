@@ -50,7 +50,7 @@ if __name__ == '__main__':
     running = True
     pygame.init()
     # coords = input().replace(' ', ',')
-    font = pygame.font.Font(None, 35)
+    font = pygame.font.Font(None, 20)
     font1 = pygame.font.Font(None, 25)
     flag = False
     scale = 17
