@@ -50,7 +50,7 @@ if __name__ == '__main__':
     running = True
     pygame.init()
     # coords = input().replace(' ', ',')
-    font = pygame.font.Font(None, 35)
+    font = pygame.font.SysFont('monotype', 25)
     font1 = pygame.font.Font(None, 25)
     flag = False
     scale = 17
@@ -88,7 +88,8 @@ if __name__ == '__main__':
                     text += event.unicode
         screen.fill((255, 255, 255))
         draw_map_type_selection(screen)
-        screen.blit(font.render(text, True, 'black'), (input_field.x + 5, input_field.y + 5))
+        screen.blit(font.render(text if len(text) <= 19 else text[len(text) - 19:], True, 'black'), (input_field.x + 5,
+                                                                                                     input_field.y + 5))
         screen.blit(font1.render('search', True, 'red'), (search_button.x + 8, search_button.y + 10))
         pygame.draw.rect(screen, 'black', input_field, 1)
         pygame.draw.rect(screen, 'black', search_button, 1)
